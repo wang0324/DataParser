@@ -6,7 +6,7 @@ public class ElectionResult {
     private double per_dem;
     private double per_gop;
     private double diff;
-    private double per_podouble_diff;
+    private double per_point_diff;
     private String state_abbr;
     private String county_name;
     private double combined_fips;
@@ -18,7 +18,7 @@ public class ElectionResult {
         this.per_dem = per_dem;
         this.per_gop = per_gop;
         this.diff = diff;
-        this.per_podouble_diff = per_podouble_diff;
+        this.per_point_diff = per_podouble_diff;
         this.state_abbr = state_abbr;
         this.county_name = county_name;
         this.combined_fips = combined_fips;
@@ -72,12 +72,12 @@ public class ElectionResult {
         this.diff = diff;
     }
 
-    public double getPer_podouble_diff() {
-        return per_podouble_diff;
+    public double getPer_point_diff() {
+        return per_point_diff;
     }
 
-    public void setPer_podouble_diff(double per_podouble_diff) {
-        this.per_podouble_diff = per_podouble_diff;
+    public void setPer_point_diff(double per_point_diff) {
+        this.per_point_diff = per_point_diff;
     }
 
     public String getState_abbr() {
@@ -105,6 +105,6 @@ public class ElectionResult {
     }
 
     public String toString() {
-        return votes_dem + "," + votes_gop + "," + total_votes + "," + per_dem + "," + per_gop + "," + diff + "," + per_podouble_diff + "," + state_abbr + "," + county_name + "," + combined_fips;
+        return votes_dem + "," + votes_gop + "," + total_votes + "," + per_dem + "," + per_gop + "," + diff + "," + per_point_diff + "," + state_abbr + "," + county_name + "," + combined_fips;
     }
 }
