@@ -47,6 +47,11 @@ public class Utils {
 
         return results;
     }
+
+    public static DataManager parseAllData(String electionData, String educationData, String unemploymentData) {
+        String[] electionLines = electionData.split("\n");
+        String[] educationLines = educationData.split("\n");
+    }
 }
 
 

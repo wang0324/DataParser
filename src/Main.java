@@ -13,5 +13,8 @@ public class Main {
         for (ElectionResult E:arr) {
             System.out.println(E.toString());
         }
+
+        DataManager manager = new DataManager();
+
     }
 }
