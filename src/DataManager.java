@@ -4,8 +4,8 @@ public class DataManager {
 
     private List<State> states;
 
-    public DataManager() {
-
+    public DataManager(List<State> states) {
+        this.states = states;
     }
 
     private void addState(State s) {

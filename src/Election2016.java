@@ -5,7 +5,6 @@ public class Election2016 {
     private double totalVotes;
 
     public Election2016() {
-
     }
 
     public double getDemVotes() {

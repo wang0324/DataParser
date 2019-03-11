@@ -6,7 +6,6 @@ public class Education2016 {
     private double bachelorsOrMore;
 
     public Education2016() {
-
     }
 
     public double getNoHighSchool() {

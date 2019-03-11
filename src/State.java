@@ -30,4 +30,6 @@ public class State {
         return this.counties;
     }
 
+    public void setCounties(List <County> ls) {this.counties = ls;}
+
 }

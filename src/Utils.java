@@ -55,46 +55,66 @@ public class Utils {
         String[] unemploymentLines = parseStringIntoArray(unemploymentData, 8);
 
         ArrayList <County> counties = createListOfCounties(unemploymentLines, states);
+        for (County C:counties) {
+            for (String line:electionLines) {
+                Election2016 e = new Election2016();
+                String[] components = line.split(",");
+                String name = components[9];
+                e.setDemVotes(Double.parseDouble(components[1]));
+                e.setGopVotes(Double.parseDouble(components[2]));
+                e.setTotalVotes(Double.parseDouble(components[3]));
 
-        for (String line:electionLines) {
-            Election2016 e = new Election2016();
-            String[] components = line.split(",");
-            String name = components[9];
-            e.setDemVotes(Double.parseDouble(components[1]));
-            e.setGopVotes(Double.parseDouble(components[2]));
-            e.setTotalVotes(Double.parseDouble(components[3]));
+                counties.get(counties.indexOf(name));
+            }
 
-            counties.get(counties.indexOf(name));
+            for (String line:educationLines) {
+                Education2016 e = new Education2016();
+                String[] components = line.split(",");
+                e.setBachelorsOrMore(Double.parseDouble(components[1]));
+                e.setNoHighSchool(Double.parseDouble(components[2]));
+                e.setSomeCollege(Double.parseDouble(components[3]));
+                e.setOnlyHighSchool(Double.parseDouble());
+            }
+
+            for (String line:unemploymentLines) {
+                Employment2016 e = new Employment2016();
+                String[] components = line.split(",");
+                e.setEmployedLaborForce(Integer.parseInt(components[3]));
+                e.setTotalLaborForce(Integer.parseInt(components[3]));
+                e.setUnemployedLaborForce(Integer.parseInt(components[3]));
+                e.setUnemployedPercent(Double.parseDouble(components[3]));
+            }
         }
 
-        for (String line:educationLines) {
-            Education2016 e = new Education2016();
-            String[] components = line.split(",");
-            e.setBachelorsOrMore();
-            e.setNoHighSchool();
-            e.setSomeCollege();
-            e.setOnlyHighSchool();
+
+        ArrayList <State> states = createListOfStates(counties, unemploymentData);
+
+        return new DataManager(states);
+    }
+
+    private static ArrayList<State> createListOfStates(ArrayList <County> counties, String data) {
+        String[] lines = parseStringIntoArray(data, 8);
+        String previousState = lines[0];
+        ArrayList <State> states = new ArrayList<>();
+        int count = 0;
+        for (int i = 0; i < lines.length; i++) {
+            if (lines[1] != previousState) {
+                previousState = lines[1];
+                states.add(new State(lines[1]).setCounties(getSubListOfCounties(0,count,counties)));
+                count = 0;
+            }
+            count++;
         }
-
-        for (String line:unemploymentLines) {
-            Employment2016 e = new Employment2016();
-            String[] components = line.split(",");
-            e.setEmployedLaborForce();
-            e.setTotalLaborForce();
-            e.setUnemployedLaborForce();
-            e.setUnemployedPercent();
-
-        }
-
         return states;
     }
 
-    private static ArrayList<State> createListOfStates(String[] electionLines) {
-        ArrayList <State> states = new ArrayList<>();
-
-        for (int i = 1; i < electionLines.length; i++) {
-            String[] components = electionLines[i].split(",");
+    private static ArrayList<County> getSubListOfCounties(int start, int count, ArrayList <County> counties) {
+        ArrayList <County> newList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            counties.add(counties.get(i));
         }
+        return newList;
+
     }
 
     private static String[] parseStringIntoArray(String electionData, int ignore) {
@@ -131,9 +151,7 @@ public class Utils {
         }
         return stateList;
     }
-    private static ArrayList<State> getAllStateData() {
 
-    }
 
     private static String parseString(String s) {
         s = s.replaceAll("%", "");
@@ -142,9 +160,6 @@ public class Utils {
         return s;
     }
 
-    private static String removeAllQuotes(String s) {
-        return s.replaceAll("\"", "");
-    }
 }
 
 
