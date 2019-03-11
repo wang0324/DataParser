@@ -26,4 +26,8 @@ public class State {
         counties.remove(c);
     }
 
+    public List<County> getCounties() {
+        return this.counties;
+    }
+
 }
