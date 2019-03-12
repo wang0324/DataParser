@@ -1,10 +1,11 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataManager {
 
-    private List<State> states;
+    private ArrayList<State> states;
 
-    public DataManager(List<State> states) {
+    public DataManager(ArrayList<State> states) {
         this.states = states;
     }
 
@@ -12,12 +13,22 @@ public class DataManager {
         states.add(s);
     }
 
-    public List<State> getStates() {
+    public ArrayList<State> getStates() {
         return states;
     }
 
-    public void setStates(List<State> states) {
+    public void setStates(ArrayList<State> states) {
         this.states = states;
+    }
+
+    public void displayAllData() {
+        for (State state:states) {
+            System.out.print(state.getName() + " ");
+            for (County C:state.getCounties()) {
+                System.out.println(C.getName() + " " + C.getEduc2016().toString()
+
+            }
+        }
     }
 
 }

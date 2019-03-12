@@ -9,6 +9,13 @@ public class Employment2016 {
 
     }
 
+    public Employment2016(int totalLaborForce, int employedLaborForce, int unemployedLaborForce, double unemployedPercent) {
+        this.totalLaborForce = totalLaborForce;
+        this.employedLaborForce = employedLaborForce;
+        this.unemployedLaborForce = unemployedLaborForce;
+        this.unemployedPercent = unemployedPercent;
+    }
+
     public int getTotalLaborForce() {
         return totalLaborForce;
     }
@@ -40,4 +47,6 @@ public class Employment2016 {
     public void setUnemployedPercent(double unemployedPercent) {
         this.unemployedPercent = unemployedPercent;
     }
+
+    public String toString() { return ("totalLaborForce " + totalLaborForce + " employedLaborForce " + employedLaborForce + " unemployedLaborForce " + unemployedLaborForce + " unemployedPercent " + unemployedPercent);}
 }

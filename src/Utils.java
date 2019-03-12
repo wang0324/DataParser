@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -6,6 +7,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Utils {
+    ArrayList <State> states;
 
     public static String readFileAsString(String filepath) {
         StringBuilder output = new StringBuilder();
@@ -50,114 +52,44 @@ public class Utils {
 //    }
 
     public static DataManager parseAllData(String electionData, String educationData, String unemploymentData) {
-        String[] electionLines =  parseStringIntoArray(electionData, 1);
+        String[] electionLines = parseStringIntoArray(electionData, 1);
         String[] educationLines = parseStringIntoArray(educationData, 5);
         String[] unemploymentLines = parseStringIntoArray(unemploymentData, 8);
 
-        ArrayList <County> counties = createListOfCounties(unemploymentLines, states);
-        for (County C:counties) {
-            for (String line:electionLines) {
-                Election2016 e = new Election2016();
-                String[] components = line.split(",");
-                String name = components[9];
-                e.setDemVotes(Double.parseDouble(components[1]));
-                e.setGopVotes(Double.parseDouble(components[2]));
-                e.setTotalVotes(Double.parseDouble(components[3]));
+        ArrayList <State> states = getAllStates(electionLines, educationLines, unemploymentLines);
+        /*
+        General Idea;
+        add all state info in one method. First loop through the election data and get all state names.
+        for each state, add to counties list
+        then for each county, ass all education, employment, and election data
 
-                counties.get(counties.indexOf(name));
-            }
-
-            for (String line:educationLines) {
-                Education2016 e = new Education2016();
-                String[] components = line.split(",");
-                e.setBachelorsOrMore(Double.parseDouble(components[1]));
-                e.setNoHighSchool(Double.parseDouble(components[2]));
-                e.setSomeCollege(Double.parseDouble(components[3]));
-                e.setOnlyHighSchool(Double.parseDouble());
-            }
-
-            for (String line:unemploymentLines) {
-                Employment2016 e = new Employment2016();
-                String[] components = line.split(",");
-                e.setEmployedLaborForce(Integer.parseInt(components[3]));
-                e.setTotalLaborForce(Integer.parseInt(components[3]));
-                e.setUnemployedLaborForce(Integer.parseInt(components[3]));
-                e.setUnemployedPercent(Double.parseDouble(components[3]));
-            }
-        }
-
-
-        ArrayList <State> states = createListOfStates(counties, unemploymentData);
+        add state list to data manger and return it
+         */
 
         return new DataManager(states);
     }
 
-    private static ArrayList<State> createListOfStates(ArrayList <County> counties, String data) {
-        String[] lines = parseStringIntoArray(data, 8);
-        String previousState = lines[0];
-        ArrayList <State> states = new ArrayList<>();
-        int count = 0;
-        for (int i = 0; i < lines.length; i++) {
-            if (lines[1] != previousState) {
-                previousState = lines[1];
-                states.add(new State(lines[1]).setCounties(getSubListOfCounties(0,count,counties)));
-                count = 0;
-            }
-            count++;
+    private static ArrayList<State> getAllStates(String[] electionLines, String[] educationLines, String[] unemploymentLines) {
+        for (String line:electionLines) {
+            String[] components = cleanLine(line);
         }
-        return states;
     }
 
-    private static ArrayList<County> getSubListOfCounties(int start, int count, ArrayList <County> counties) {
-        ArrayList <County> newList = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            counties.add(counties.get(i));
-        }
-        return newList;
+    private static String[] cleanLine(String line) {
 
     }
 
-    private static String[] parseStringIntoArray(String electionData, int ignore) {
-        String[] lines = electionData.split("\n");
+    private static String[] parseStringIntoArray(String data, int linesToSkip) {
+        String[] lines = data.split("\n");
+        String[] usable = new String[lines.length-linesToSkip];
 
-        for (int i = ignore; i < lines.length; i++) {
-            String line = lines[i];
-            while (line.contains("\"")) {
-                int firstQuote = line.indexOf("\"");
-                int secondQuote = line.indexOf("\"", firstQuote + 1);
-
-                if (firstQuote != -1) {
-                    String diff = line.substring(firstQuote, secondQuote + 1);
-                    String copy = diff;
-                    copy = copy.replaceAll("\"", "");
-                    copy = copy.replaceAll(",", "");
-                    line = line.replaceFirst(diff, copy);
-                }
-            }
-            parseString(line);
-            lines[i] = line;
+        int index = 0;
+        for (int i = linesToSkip; i < lines.length; i++) {
+            usable[index] = lines[i];
+            index++;
         }
-        return lines;
-    }
 
-    private static ArrayList<State> getStateList(ArrayList<String[]> election) {
-        ArrayList<State> stateList = new ArrayList<>();
-        for (String[] dataLine : election) {
-            String stateName = dataLine[1];
-            if (!stateList.contains(stateList)) {
-                State s = new State(stateName);
-                stateList.add(s);
-            }
-        }
-        return stateList;
-    }
-
-
-    private static String parseString(String s) {
-        s = s.replaceAll("%", "");
-        s = s.replaceAll("$", "");
-        s = s.replaceAll("%", "");
-        return s;
+        return usable;
     }
 
 }

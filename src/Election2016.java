@@ -7,6 +7,12 @@ public class Election2016 {
     public Election2016() {
     }
 
+    public Election2016(double demVotes, double gopVotes, double totalVotes) {
+        this.demVotes = demVotes;
+        this.gopVotes = gopVotes;
+        this.totalVotes = totalVotes;
+    }
+
     public double getDemVotes() {
         return demVotes;
     }
@@ -30,4 +36,6 @@ public class Election2016 {
     public void setTotalVotes(double totalVotes) {
         this.totalVotes = totalVotes;
     }
+
+    public String toString() { return ("demVotes " + demVotes + " gopVotes " + gopVotes + " totalVotes " + totalVotes);}
 }

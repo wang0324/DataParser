@@ -2,12 +2,12 @@ public class County {
 
     private String name;
     private int fips;
-    private Election2016 vote2016;
-    private Education2016 educ2016;
-    private Employment2016 employ2016;
+    private ElectionData electionData;
 
-    public County(String name) {
+    public County(String name, int fips, ElectionData electionData) {
         this.name = name;
+        this.fips = fips;
+        this.electionData = electionData;
     }
 
     public String getName() {
